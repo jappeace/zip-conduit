@@ -189,7 +189,7 @@ setComment comment = modify $ \zip ->  zip { zipComment = comment }
 sourceEntry :: FilePath -> Sink ByteString (ResourceT Archive) a -> Archive a
 sourceEntry e sink = do
     zip <- get
-    runResourceT $ sourceFile zip e $$ sink
+    runConduitRes $ sourceFile zip e .| sink
 
 
 -- | Stream data from the specified source to an archive entry.

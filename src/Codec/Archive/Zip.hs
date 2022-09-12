@@ -113,7 +113,7 @@ import           System.IO (Handle, IOMode(..), SeekMode(..), hClose, hSeek, hTe
 
 import           Control.Monad.IO.Class (liftIO)
 import           Control.Monad.State (StateT, evalStateT, get, gets, modify, put)
-import           Control.Monad.Trans.Resource (ResourceT, MonadResource, runResourceT)
+import           Control.Monad.Trans.Resource (ResourceT, MonadResource, runResourceT, MonadThrow)
 import           Data.Conduit
 import           Data.Void
 import Control.Monad.Primitive

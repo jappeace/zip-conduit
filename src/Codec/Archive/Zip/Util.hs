@@ -107,7 +107,7 @@ clockTimeToUTCTime (TOD seconds picoseconds) =
 
 ------------------------------------------------------------------------------
 -- Conduit utils.
-crc32Sink :: Monad m => Sink ByteString m Word32
+crc32Sink :: PrimMonad m => ConduitT ByteString Void m Word32
 crc32Sink =
     CL.fold crc32Update 0
 

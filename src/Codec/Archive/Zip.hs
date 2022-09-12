@@ -321,8 +321,8 @@ mkFileHeader f compression lastModified relativeOffset =
                }
 
 
-sinkData :: MonadResource m
-         => Handle -> CompressionMethod -> Sink ByteString m DataDescriptor
+sinkData :: (PrimMonad m, MonadResource m, MonadThrow m)
+         => Handle -> CompressionMethod -> ConduitT ByteString Void m DataDescriptor
 sinkData h compression = do
     ((uncompressedSize, crc32), compressedSize) <-
         case compression of
@@ -334,15 +334,14 @@ sinkData h compression = do
                , ddUncompressedSize = fromIntegral uncompressedSize
                }
   where
-    compressSink :: MonadResource m => Sink ByteString m Int
-    compressSink = compress 6 (WindowBits (-15)) =$ sizeDataSink
+    compressSink :: (PrimMonad m, MonadResource m, MonadThrow m) => ConduitT ByteString Void m Int
+    compressSink = compress 6 (WindowBits (-15)) .| sizeDataSink
 
-    sizeCrc32Sink :: MonadResource m => Sink ByteString m (Int, Word32)
+    sizeCrc32Sink :: (MonadResource m, PrimMonad m) => ConduitT ByteString Void m (Int, Word32)
     sizeCrc32Sink =  CI.zipSinks sizeSink crc32Sink
 
-    sizeDataSink :: MonadResource m => Sink ByteString m Int
+    sizeDataSink :: MonadResource m => ConduitT ByteString Void m Int
     sizeDataSink  = fst <$> CI.zipSinks sizeSink (CB.sinkHandle h)
-
 
 -- Writes data descriptor fields (crc-32, compressed size and
 -- uncompressed size) in the middle of the local file header.

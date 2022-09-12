@@ -13,6 +13,7 @@ import           Data.Conduit
 import qualified Data.Conduit.List as CL (fold)
 import           Data.Digest.CRC32 (crc32Update)
 import           Data.Serialize.Get (Get, getWord32le, isEmpty, lookAhead, runGet, skip)
+import Control.Monad.Primitive
 
 
 ifM :: Monad m => m Bool -> m a -> m a -> m a

@@ -31,6 +31,7 @@ Library
     , utf8-string    == 0.3.*
     , conduit-extra  == 1.1.*
     , resourcet      == 1.1.*
+    , primitive
 
   Exposed-modules:
       Codec.Archive.Zip

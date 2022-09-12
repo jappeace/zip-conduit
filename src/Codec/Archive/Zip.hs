@@ -114,7 +114,9 @@ import           System.IO (Handle, IOMode(..), SeekMode(..), hClose, hSeek, hTe
 import           Control.Monad.IO.Class (liftIO)
 import           Control.Monad.State (StateT, evalStateT, get, gets, modify, put)
 import           Control.Monad.Trans.Resource (ResourceT, MonadResource, runResourceT)
-import           Data.Conduit (Sink, Source, ($$), ($=), (=$))
+import           Data.Conduit
+import           Data.Void
+import Control.Monad.Primitive
 import qualified Data.Conduit.Binary as CB (isolate, sinkFile, sinkHandle, sourceFile, sourceIOHandle)
 import qualified Data.Conduit.List as CL (map)
 import qualified Data.Conduit.Internal as CI (zipSinks)
